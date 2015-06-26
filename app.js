@@ -11,9 +11,12 @@ function* cleanDB() {
 	var queue, user, x, y, completed, partials, key;
 
 	console.log('Finding Dupes...');
-	queue = yield users.find({username: ''});
+	queue = yield users.find({});
 
 	for (x = 0; x < queue.length; x++) {
+		if ((queue[x].username !== undefined)) && (queue[x].username !== '')) {
+			continue;
+		}
 		user = {};
 		partials = yield users.find({phone: queue[x].phone});
 
