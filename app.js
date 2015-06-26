@@ -24,7 +24,7 @@ function* cleanDB() {
 
 		for (y = 0; y < partials.length; y++) {
 			for (key in partials[y]) {
-				if (key === null) {
+				if (partials[y][key] === null) {
 					continue;
 				}
 
