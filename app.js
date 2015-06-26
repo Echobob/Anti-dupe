@@ -10,6 +10,8 @@ var koa		= require('koa'),
 function* cleanDB() {
 	var queue, user, x, y, completed, partials, key;
 
+	completed = [];
+
 	console.log('Finding Dupes...');
 	queue = yield users.find({});
 
@@ -17,10 +19,14 @@ function* cleanDB() {
 		if ((queue[x].username !== undefined) && (queue[x].username !== '')) {
 			continue;
 		}
+
+		if ((queue[x].phone === undefined || queue[x].phone === null)) {
+			yield users.remove(queue[x]);
+			continue;
+		}
+
 		user = {};
 		partials = yield users.find({phone: queue[x].phone});
-
-		console.log(queue[x].phone);
 
 		for (y = 0; y < partials.length; y++) {
 			for (key in partials[y]) {
@@ -36,9 +42,9 @@ function* cleanDB() {
 		}
 
 		yield users.remove(queue[x]);
-
 		yield users.insert(user);
-		completed = queue[x].phone;
+
+		completed.push(queue[x].phone);
 	}
 
 	console.log('Completed: ', completed.length);
