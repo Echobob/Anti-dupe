@@ -40,6 +40,8 @@ function* cleanDB() {
 		yield users.insert(user);
 		completed = queue[x].phone;
 	}
+
+	console.log('Completed: ', completed.length);
 }
 
 app.use(function *(){
