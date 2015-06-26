@@ -14,7 +14,7 @@ function* cleanDB() {
 	queue = yield users.find({});
 
 	for (x = 0; x < queue.length; x++) {
-		if ((queue[x].username !== undefined)) && (queue[x].username !== '')) {
+		if ((queue[x].username !== undefined) && (queue[x].username !== '')) {
 			continue;
 		}
 		user = {};
