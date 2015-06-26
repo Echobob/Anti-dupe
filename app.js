@@ -8,14 +8,14 @@ var koa		= require('koa'),
 function* findDupes() {
 	var queue, user, x, y, completed, partials, key;
 	
+	console.log('Finding Dupes...');
 	queue = yield users.find({username: ''});
 
 	for (x = 0; x < queue.length; x++) {
 		user = {};
-		
 		partials = yield users.find({phone: queue[x].phone});
 
-		console.log('test');
+		console.log(queue[x].phone);
 
 		for (y = 0; y < partials.length; y++) {
 			for (key in partials[y]) {
@@ -31,8 +31,6 @@ function* findDupes() {
 		yield users.insert(user);
 		completed = queue[x].phone;
 	}
-
-	console.log(completed);
 }
 
 findDupes();
