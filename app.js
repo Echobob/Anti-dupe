@@ -2,7 +2,7 @@ var koa		= require('koa'),
 	monk	= require('monk'),
 	wrap	= require('co-monk'),
 	db		= monk('localhost/mapsit-production'),
-	users	= wrap(db.get('users-test')),
+	users	= wrap(db.get('users2')),
 	app		= koa();
 
 // logger
