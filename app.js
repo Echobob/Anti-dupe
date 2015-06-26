@@ -24,6 +24,10 @@ function* cleanDB() {
 
 		for (y = 0; y < partials.length; y++) {
 			for (key in partials[y]) {
+				if (key === null) {
+					continue;
+				}
+
 				if (partials[y][key].length > 0) {
 					user.key = partials[y].key;
 				}
