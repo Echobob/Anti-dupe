@@ -2,16 +2,8 @@ var koa		= require('koa'),
 	monk	= require('monk'),
 	wrap	= require('co-monk'),
 	db		= monk('localhost/mapsit-production'),
-	users	= wrap(db.get('users-test')),
+	users	= wrap(db.get('users2')),
 	app		= koa();
-
-// logger
-app.use(function *(next){
-	var start = new Date();
-	yield next;
-	var ms = new Date() - start;
-	console.log('%s %s - %s', this.method, this.url, ms);
-});
 
 function* findDupes() {
 	var queue, user, x, y, completed, partials, key;
@@ -23,6 +15,8 @@ function* findDupes() {
 		
 		partials = yield users.find({phone: queue[x].phone});
 
+		console.log('test');
+
 		for (y = 0; y < partials.length; y++) {
 			for (key in partials[y]) {
 				if (partials[y].key.length > 0) {
@@ -31,6 +25,7 @@ function* findDupes() {
 			}
 			yield users.remove(partials[y]);
 		}
+
 		yield users.remove(queue[x]);
 
 		yield users.insert(user);
@@ -40,5 +35,4 @@ function* findDupes() {
 	console.log(completed);
 }
 
-app.listen(3000);
-yield findDupes();
+findDupes();
